@@ -113,6 +113,10 @@ app.post('/orders', async (req, res) => {
         await client.query('ROLLBACK');
         return res.status(400).json({ error: `Insufficient stock for ${sku}` });
       }
+      if (quantity <= 0) {
+        await client.query('ROLLBACK');
+        return res.status(400).json({ error: `Invalid quantity for ${sku}` });
+      }
     }
 
     // Create order
